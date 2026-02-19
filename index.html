@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdul Manaf Yussif — SRC Welfare Officer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* =========================================================
+     CSS VARIABLES & RESET
+  ========================================================= */
+  :root {
+    --royal: #0A1AFF;
+    --royal-dark: #060fcc;
+    --royal-deep: #04096e;
+    --gold: #F4C430;
+    --gold-light: #ffe082;
+    --white: #ffffff;
+    --off-white: #f8f7f3;
+    --gray: #6b7280;
+    --dark: #0a0a14;
+    --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--dark);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* =========================================================
+     CUSTOM CURSOR
+  ========================================================= */
+  .cursor {
+    position: fixed;
+    width: 14px; height: 14px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s var(--ease-back), height 0.3s var(--ease-back), background 0.3s;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 40px; height: 40px;
+    border: 2px solid var(--royal);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.18s var(--ease-expo);
+    opacity: 0.6;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* =========================================================
+     PARTICLES CANVAS
+  ========================================================= */
+  #particles-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+  }
+
+  /* =========================================================
+     NAVIGATION
+  ========================================================= */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: rgba(10, 26, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(244, 196, 48, 0.2);
+    transform: translateY(0);
+    transition: transform 0.5s var(--ease-expo), background 0.4s;
+  }
+  nav.hidden { transform: translateY(-100%); }
+  nav.scrolled { background: rgba(6, 15, 204, 0.97); }
+
+  .nav-logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    text-decoration: none;
+    cursor: none;
+  }
+  .nav-logo-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo-title {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.4rem;
+    list-style: none;
+  }
+  .nav-links li a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: all 0.3s var(--ease-expo);
+    position: relative;
+    cursor: none;
+  }
+  .nav-links li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; right: 50%;
+    height: 2px;
+    background: var(--gold);
+    transition: all 0.3s var(--ease-expo);
+  }
+  .nav-links li a:hover { color: var(--gold); }
+  .nav-links li a:hover::after { left: 10%; right: 10%; }
+  .nav-links li a.active { color: var(--gold); }
+  .nav-links li a.active::after { left: 10%; right: 10%; }
+
+  .nav-vote-btn {
+    background: var(--gold);
+    color: var(--royal-dark) !important;
+    font-weight: 700 !important;
+    padding: 0.6rem 1.4rem !important;
+    border-radius: 50px !important;
+    transition: all 0.3s var(--ease-back) !important;
+    box-shadow: 0 4px 20px rgba(244, 196, 48, 0.35);
+  }
+  .nav-vote-btn:hover {
+    transform: scale(1.07) !important;
+    box-shadow: 0 6px 30px rgba(244, 196, 48, 0.55) !important;
+    background: #ffe082 !important;
+  }
+  .nav-vote-btn::after { display: none !important; }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: none;
+    padding: 4px;
+    z-index: 1100;
+  }
+  .hamburger span {
+    display: block;
+    width: 26px; height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: all 0.4s var(--ease-expo);
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobile menu */
+  .mobile-menu {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--royal-dark);
+    z-index: 990;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.6s var(--ease-expo);
+    padding: 2rem;
+  }
+  .mobile-menu.open { transform: translateX(0); }
+  .mobile-menu a {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: color 0.3s, opacity 0.5s var(--ease-expo), transform 0.5s var(--ease-expo);
+    cursor: none;
+  }
+  .mobile-menu.open a {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .mobile-menu.open a:nth-child(1) { transition-delay: 0.1s; }
+  .mobile-menu.open a:nth-child(2) { transition-delay: 0.15s; }
+  .mobile-menu.open a:nth-child(3) { transition-delay: 0.2s; }
+  .mobile-menu.open a:nth-child(4) { transition-delay: 0.25s; }
+  .mobile-menu.open a:nth-child(5) { transition-delay: 0.3s; }
+  .mobile-menu a:hover { color: var(--gold); }
+
+  /* =========================================================
+     PAGES (SPA)
+  ========================================================= */
+  .page {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+  .page.active { display: block; }
+
+  /* =========================================================
+     HERO SECTIONS — shared styles
+  ========================================================= */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 80px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--royal-deep);
+    z-index: 0;
+  }
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(10,26,255,0.6) 0%, transparent 70%),
+                radial-gradient(ellipse at 20% 80%, rgba(244,196,48,0.15) 0%, transparent 50%);
+  }
+
+  /* Grid lines decorative */
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-img-wrap {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 52%;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .hero-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transform: scale(1.08);
+    animation: heroImgReveal 1.4s 0.4s var(--ease-expo) forwards;
+    opacity: 0;
+  }
+  @keyframes heroImgReveal {
+    to { opacity: 1; transform: scale(1); }
+  }
+  .hero-img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--royal-deep) 0%, rgba(4,9,110,0.5) 40%, transparent 70%);
+    z-index: 2;
+  }
+  .hero-img-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top, var(--royal-deep), transparent);
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    padding: 0 4rem;
+    max-width: 65%;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(244, 196, 48, 0.15);
+    border: 1px solid rgba(244, 196, 48, 0.4);
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.45rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1.8rem;
+    animation: fadeSlideUp 0.8s 0.3s var(--ease-expo) both;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+  }
+
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.0;
+    margin-bottom: 0.6rem;
+    overflow: hidden;
+  }
+  .hero-headline span {
+    display: block;
+    animation: textReveal 1s var(--ease-expo) both;
+  }
+  .hero-headline .gold { color: var(--gold); font-style: italic; }
+  .hero-headline span:nth-child(1) { animation-delay: 0.5s; }
+  .hero-headline span:nth-child(2) { animation-delay: 0.65s; }
+  .hero-headline span:nth-child(3) { animation-delay: 0.8s; }
+
+  @keyframes textReveal {
+    from { opacity: 0; transform: translateY(60px) skewY(3deg); }
+    to { opacity: 1; transform: translateY(0) skewY(0); }
+  }
+
+  .hero-subhead {
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+    color: rgba(255,255,255,0.75);
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    animation: fadeSlideUp 0.9s 1s var(--ease-expo) both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeSlideUp 0.9s 1.1s var(--ease-expo) both;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2.2rem;
+    background: var(--gold);
+    color: var(--royal-dark);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.4s var(--ease-back);
+    box-shadow: 0 8px 40px rgba(244,196,48,0.45);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--white);
+    transform: translateX(-100%);
+    transition: transform 0.4s var(--ease-expo);
+    z-index: 0;
+  }
+  .btn-primary:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 16px 50px rgba(244,196,48,0.55); }
+  .btn-primary:hover::before { transform: translateX(100%); }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-primary:active { transform: scale(0.97); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 2.2rem;
+    background: transparent;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 50px;
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.4s var(--ease-expo);
+  }
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-3px);
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeSlideUp 1s 1.5s var(--ease-expo) both;
+    z-index: 10;
+  }
+  .scroll-indicator span {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gold);
+    animation: scrollAnim 2s infinite;
+  }
+  @keyframes scrollAnim {
+    to { top: 200%; }
+  }
+
+  /* =========================================================
+     SECTION STYLES — general
+  ========================================================= */
+  section {
+    padding: 6rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--royal);
+    margin-bottom: 1.2rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 30px; height: 2px;
+    background: var(--gold);
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+  }
+  .section-title .accent { color: var(--royal); }
+  .section-title .gold-accent { color: var(--gold); background: var(--royal); padding: 0 0.3rem; }
+
+  .section-body {
+    font-size: 1.05rem;
+    color: var(--gray);
+    line-height: 1.8;
+    max-width: 600px;
+  }
+
+  /* Reveal animations (scroll-triggered) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo);
+  }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo);
+  }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* Stagger children */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
+  }
+  .stagger.visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s; }
+  .stagger.visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.1s; }
+  .stagger.visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.2s; }
+  .stagger.visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.3s; }
+  .stagger.visible > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.4s; }
+  .stagger.visible > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.5s; }
+
+  /* Image styling */
+  .img-fancy {
+    width: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(10,26,255,0.18);
+  }
+  .img-fancy img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-expo);
+    display: block;
+  }
+  .img-fancy:hover img { transform: scale(1.06); }
+  .img-fancy::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(10,26,255,0.2) 0%, transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Gold frame accent */
+  .img-frame {
+    position: relative;
+  }
+  .img-frame::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    right: -16px;
+    width: 60%;
+    height: 60%;
+    border: 3px solid var(--gold);
+    border-radius: 4px;
+    z-index: -1;
+    transition: transform 0.4s var(--ease-expo);
+  }
+  .img-frame:hover::after { transform: translate(-5px, -5px); }
+
+  /* Two column layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .two-col.reverse .col-img { order: -1; }
+
+  /* =========================================================
+     PAGE 1: HOME
+  ========================================================= */
+
+  /* Stats bar */
+  .stats-bar {
+    background: var(--royal);
+    padding: 0;
+    overflow: hidden;
+  }
+  .stats-bar-inner {
+    display: flex;
+    padding: 0;
+  }
+  .stat-item {
+    flex: 1;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    transition: background 0.3s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: rgba(255,255,255,0.06); }
+  .stat-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 3.5rem;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  /* Mission section */
+  .mission-section {
+    background: var(--off-white);
+    padding: 7rem 4rem;
+  }
+
+  /* Quote banner */
+  .quote-banner {
+    background: var(--royal);
+    padding: 5rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-banner::before {
+    content: '"';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 30rem;
+    color: rgba(255,255,255,0.03);
+    top: -8rem;
+    left: -2rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-style: italic;
+    color: var(--white);
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.55;
+    position: relative;
+  }
+  .quote-text .highlight { color: var(--gold); }
+  .quote-attr {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* Problems grid */
+  .problems-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .problem-card {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 2.5rem 2rem;
+    border-left: 4px solid var(--royal);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s var(--ease-expo);
+  }
+  .problem-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 0%; height: 100%;
+    background: var(--royal);
+    transition: width 0.4s var(--ease-expo);
+    z-index: 0;
+  }
+  .problem-card:hover::before { width: 100%; }
+  .problem-card:hover .problem-icon,
+  .problem-card:hover .problem-title,
+  .problem-card:hover .problem-body { color: var(--white); }
+  .problem-card > * { position: relative; z-index: 1; transition: color 0.4s; }
+
+  .problem-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+    transition: transform 0.4s var(--ease-back) !important;
+  }
+  .problem-card:hover .problem-icon { transform: scale(1.2); }
+
+  .problem-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    color: var(--dark);
+  }
+  .problem-body {
+    font-size: 0.88rem;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  /* =========================================================
+     PAGE 2: ABOUT
+  ========================================================= */
+
+  .about-bio {
+    background: var(--off-white);
+    padding: 7rem 4rem;
+  }
+
+  .timeline {
+    margin-top: 3rem;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--royal), var(--gold));
+  }
+  .timeline-item {
+    padding-left: 2.5rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 6px;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    box-shadow: 0 0 0 3px var(--royal);
+  }
+  .timeline-year {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--royal);
+    margin-bottom: 0.3rem;
+  }
+  .timeline-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  .timeline-body {
+    font-size: 0.88rem;
+    color: var(--gray);
+    margin-top: 0.3rem;
+    line-height: 1.6;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .value-card {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 2rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: all 0.4s var(--ease-expo);
+    border-top: 3px solid transparent;
+  }
+  .value-card:hover { border-top-color: var(--gold); transform: translateY(-6px); box-shadow: 0 16px 50px rgba(0,0,0,0.1); }
+  .value-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    width: 56px; height: 56px;
+    background: rgba(10,26,255,0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+  }
+  .value-card:hover .value-icon { background: var(--royal); }
+  .value-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--dark);
+    margin-bottom: 0.4rem;
+  }
+  .value-body {
+    font-size: 0.84rem;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  /* =========================================================
+     PAGE 3: WELFARE AGENDA
+  ========================================================= */
+
+  .agenda-section {
+    background: var(--off-white);
+    padding: 7rem 4rem;
+  }
+
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .agenda-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 2.8rem 2.2rem;
+    box-shadow: 0 6px 40px rgba(0,0,0,0.07);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s var(--ease-expo);
+    cursor: none;
+  }
+  .agenda-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--royal), var(--gold));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--ease-expo);
+  }
+  .agenda-card:hover { transform: translateY(-10px); box-shadow: 0 20px 70px rgba(10,26,255,0.15); }
+  .agenda-card:hover::after { transform: scaleX(1); }
+
+  .agenda-number {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 5rem;
+    color: rgba(10,26,255,0.08);
+    line-height: 1;
+    margin-bottom: 1.2rem;
+    display: block;
+    transition: color 0.3s;
+  }
+  .agenda-card:hover .agenda-number { color: rgba(10,26,255,0.14); }
+
+  .agenda-tag {
+    display: inline-block;
+    background: rgba(244,196,48,0.15);
+    color: #8a6c00;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+  }
+  .agenda-problem {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.8rem;
+    line-height: 1.25;
+  }
+  .agenda-body {
+    font-size: 0.88rem;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .solution-tag {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--royal);
+  }
+  .solution-tag::before {
+    content: '→';
+    color: var(--gold);
+    flex-shrink: 0;
+    font-size: 1.1rem;
+  }
+
+  /* Impact bar */
+  .impact-section {
+    background: var(--dark);
+    padding: 5rem 4rem;
+    overflow: hidden;
+  }
+  .impact-marquee {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .impact-marquee span {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.5rem;
+    color: rgba(255,255,255,0.15);
+    flex-shrink: 0;
+  }
+  .impact-marquee span.accent { color: var(--gold); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* =========================================================
+     PAGE 4: LEADERSHIP
+  ========================================================= */
+
+  .leadership-section {
+    background: var(--off-white);
+    padding: 7rem 4rem;
+  }
+
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .exp-card {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 2rem 2.2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: all 0.4s var(--ease-expo);
+    position: relative;
+    overflow: hidden;
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--royal);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.4s var(--ease-expo);
+  }
+  .exp-card:hover::before { transform: scaleY(1); }
+  .exp-card:hover { transform: translateX(8px); box-shadow: 0 10px 50px rgba(10,26,255,0.12); }
+
+  .exp-badge {
+    width: 54px; height: 54px;
+    background: var(--royal);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    transition: all 0.4s var(--ease-back);
+  }
+  .exp-card:hover .exp-badge { background: var(--gold); transform: rotate(6deg) scale(1.1); }
+  .exp-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.3rem;
+  }
+  .exp-org {
+    font-size: 0.8rem;
+    color: var(--royal);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Feature highlight */
+  .feature-hl {
+    background: var(--royal);
+    border-radius: 16px;
+    padding: 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-hl::before {
+    content: '';
+    position: absolute;
+    right: -60px; bottom: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(244,196,48,0.1);
+  }
+  .feature-hl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .feature-hl-title span { color: var(--gold); }
+  .feature-hl-body {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+    font-size: 0.95rem;
+  }
+  .feature-hl-img {
+    border-radius: 12px;
+    overflow: hidden;
+    height: 350px;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+  }
+  .feature-hl-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-expo);
+  }
+  .feature-hl-img:hover img { transform: scale(1.06); }
+
+  /* =========================================================
+     PAGE 5: WHY VOTE
+  ========================================================= */
+
+  .vote-hero-section {
+    background: var(--off-white);
+    padding: 7rem 4rem;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .pillar {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    background: var(--white);
+    box-shadow: 0 6px 40px rgba(0,0,0,0.06);
+    transition: all 0.5s var(--ease-back);
+    cursor: none;
+  }
+  .pillar:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 24px 80px rgba(10,26,255,0.15); }
+  .pillar-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 4rem;
+    color: var(--royal);
+    opacity: 0.12;
+    display: block;
+    line-height: 1;
+    transition: opacity 0.3s;
+  }
+  .pillar:hover .pillar-num { opacity: 0.22; }
+  .pillar-icon { font-size: 3rem; display: block; margin: -1rem auto 1rem; }
+  .pillar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.8rem;
+  }
+  .pillar-body {
+    font-size: 0.87rem;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  /* Promise section */
+  .promises-section {
+    background: var(--dark);
+    padding: 7rem 4rem;
+  }
+  .promises-section .section-title { color: var(--white); }
+  .promises-section .section-label { color: var(--gold-light); }
+  .promises-section .section-body { color: rgba(255,255,255,0.6); }
+
+  .promise-list {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .promise-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: all 0.4s var(--ease-expo);
+    cursor: none;
+  }
+  .promise-item:hover {
+    background: rgba(10,26,255,0.3);
+    border-color: rgba(10,26,255,0.5);
+    transform: translateX(10px);
+  }
+  .promise-check {
+    width: 36px; height: 36px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: all 0.4s var(--ease-back);
+  }
+  .promise-item:hover .promise-check { transform: scale(1.2) rotate(10deg); }
+  .promise-text {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+
+  /* CTA section */
+  .cta-section {
+    background: linear-gradient(135deg, var(--royal) 0%, var(--royal-deep) 60%, var(--dark) 100%);
+    padding: 8rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(244,196,48,0.12) 0%, transparent 70%);
+  }
+  .cta-section .section-title { color: var(--white); }
+  .cta-section .section-body { color: rgba(255,255,255,0.7); max-width: 500px; margin: 0 auto 2.5rem; }
+  .cta-section .section-label { justify-content: center; }
+
+  /* =========================================================
+     FOOTER
+  ========================================================= */
+  footer {
+    background: var(--dark);
+    padding: 4rem 4rem 2.5rem;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 2rem;
+  }
+  .footer-brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .footer-brand-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .footer-bio {
+    font-size: 0.87rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.7;
+  }
+  .footer-col-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.7rem; }
+  .footer-links li a {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    cursor: none;
+    transition: color 0.3s;
+  }
+  .footer-links li a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.3);
+  }
+  .footer-bottom span { color: var(--gold); }
+
+  /* =========================================================
+     LOADING SCREEN
+  ========================================================= */
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: var(--royal-deep);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    transition: opacity 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
+  }
+  #loader.hidden { opacity: 0; transform: translateY(-100%); pointer-events: none; }
+  .loader-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+  .loader-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+  }
+  .loader-bar {
+    width: 200px;
+    height: 2px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .loader-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    animation: loaderFill 1.8s var(--ease-expo) forwards;
+  }
+  @keyframes loaderFill {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  /* =========================================================
+     PAGE TRANSITION
+  ========================================================= */
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    background: var(--royal);
+    z-index: 8000;
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+  .page-transition.slide-in { animation: slideIn 0.5s var(--ease-expo) forwards; }
+  .page-transition.slide-out { animation: slideOut 0.5s 0.1s var(--ease-expo) forwards; }
+  @keyframes slideIn {
+    to { transform: translateX(0); }
+  }
+  @keyframes slideOut {
+    from { transform: translateX(0); }
+    to { transform: translateX(100%); }
+  }
+
+  /* =========================================================
+     RESPONSIVE
+  ========================================================= */
+  @media (max-width: 1024px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero-img-wrap { width: 45%; }
+    .hero-content { max-width: 75%; }
+    .two-col { grid-template-columns: 1fr; gap: 3rem; }
+    .two-col.reverse .col-img { order: 0; }
+    section { padding: 4rem 2rem; }
+    .problems-grid, .agenda-grid { grid-template-columns: 1fr; }
+    .exp-grid { grid-template-columns: 1fr; }
+    .pillars { grid-template-columns: 1fr; }
+    .feature-hl { grid-template-columns: 1fr; padding: 2.5rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+    .stats-bar-inner { flex-wrap: wrap; }
+    .stat-item { flex: 0 0 50%; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .values-grid { grid-template-columns: 1fr; }
+    .hero-content { padding: 0 2rem; }
+    .mission-section, .about-bio, .agenda-section, .leadership-section, .vote-hero-section { padding: 4rem 2rem; }
+    .cta-section, .promises-section { padding: 4rem 2rem; }
+    .impact-section { padding: 3rem 2rem; }
+    .quote-banner { padding: 4rem 2rem; }
+    footer { padding: 3rem 2rem 2rem; }
+  }
+
+  @media (max-width: 640px) {
+    .hero-img-wrap { opacity: 0.3; width: 100%; }
+    .hero-content { max-width: 100%; }
+    .hero-headline { font-size: 2.4rem; }
+    .stat-item { flex: 0 0 100%; }
+    .problems-grid { grid-template-columns: 1fr; }
+    .feature-hl { padding: 2rem; }
+    .feature-hl-img { height: 250px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loader">
+  <div class="loader-name">Abdul Manaf Yussif</div>
+  <div class="loader-title">SRC Welfare Officer Aspirant</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- PAGE TRANSITION -->
+<div class="page-transition" id="page-transition"></div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- PARTICLES -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAVIGATION -->
+<nav id="nav">
+  <a href="#" class="nav-logo" onclick="showPage('home', event)">
+    <span class="nav-logo-name">Abdul Manaf Yussif</span>
+    <span class="nav-logo-title">SRC Welfare Officer Aspirant</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="active" data-page="home" onclick="showPage('home', event)">Home</a></li>
+    <li><a href="#" data-page="about" onclick="showPage('about', event)">About</a></li>
+    <li><a href="#" data-page="agenda" onclick="showPage('agenda', event)">Welfare Agenda</a></li>
+    <li><a href="#" data-page="leadership" onclick="showPage('leadership', event)">Leadership</a></li>
+    <li><a href="#" data-page="vote" onclick="showPage('vote', event)" class="nav-vote-btn">Why Vote for Me</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#" onclick="showPage('home', event); toggleMenu()">Home</a>
+  <a href="#" onclick="showPage('about', event); toggleMenu()">About</a>
+  <a href="#" onclick="showPage('agenda', event); toggleMenu()">Welfare Agenda</a>
+  <a href="#" onclick="showPage('leadership', event); toggleMenu()">Leadership</a>
+  <a href="#" onclick="showPage('vote', event); toggleMenu()">Why Vote for Me</a>
+</div>
+
+<!-- ================================================
+     PAGE 1: HOME
+================================================ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-img-wrap">
+      <img src="images/manaf6.jpeg" alt="Abdul Manaf Yussif — SRC Welfare Officer Campaign Photo">
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">SRC Welfare Officer · ATU</div>
+      <h1 class="hero-headline">
+        <span>Your Voice.</span>
+        <span class="gold">My Mission.</span>
+        <span>Our Future.</span>
+      </h1>
+      <p class="hero-subhead">
+        Abdul Manaf Yussif — a passionate advocate for student wellbeing, mental health, and inclusive campus life. Together, we build a campus where every student thrives.
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="btn-primary" onclick="showPage('vote', event)">
+          <span>&#9733; Why Vote for Me</span>
+        </a>
+        <a href="#" class="btn-secondary" onclick="showPage('agenda', event)">
+          View Welfare Agenda →
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-bar-inner stagger">
+      <div class="stat-item">
+        <span class="stat-num">7+</span>
+        <span class="stat-label">Leadership Roles</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Welfare Priorities</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Student Commitment</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">1</span>
+        <span class="stat-label">Clear Vision</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MISSION -->
+  <section class="mission-section">
+    <div class="two-col">
+      <div class="col-text reveal-left">
+        <div class="section-label">Who He Is</div>
+        <h2 class="section-title">Fashion. <span class="accent">Leadership.</span><br>Student Power.</h2>
+        <p class="section-body" style="margin-bottom:1.5rem;">
+          Abdul Manaf Yussif is a Fashion and Textiles student at ATU — but more than a student, he's a proven leader, mental health advocate, and community builder who understands exactly what student life demands and what it lacks.
+        </p>
+        <p class="section-body">
+          He has walked these halls, felt these pressures, and now he's ready to turn that firsthand experience into real, meaningful change as your SRC Welfare Officer.
+        </p>
+        <br>
+        <a href="#" class="btn-primary" onclick="showPage('about', event)" style="display:inline-flex;">
+          <span>Read His Story →</span>
+        </a>
+      </div>
+      <div class="col-img reveal-right">
+        <div class="img-frame">
+          <div class="img-fancy" style="height:520px;">
+            <img src="images/manaf8.jpeg" alt="Abdul Manaf Yussif — Student Leadership">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMS -->
+  <section style="background:#0A0A14; padding:6rem 4rem;">
+    <div class="reveal" style="text-align:center; margin-bottom:1rem;">
+      <div class="section-label" style="justify-content:center; color:#ffe082;">Student Welfare Problems</div>
+      <h2 class="section-title" style="color:#fff; text-align:center;">The Issues <span style="color:var(--gold)">That Demand Action</span></h2>
+    </div>
+    <div class="problems-grid stagger">
+      <div class="problem-card">
+        <span class="problem-icon">🧠</span>
+        <div class="problem-title">Mental Health Crisis</div>
+        <p class="problem-body">Students struggle with mental health challenges with little or no access to proper counseling services on campus. This cannot continue.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">🚿</span>
+        <div class="problem-title">Poor Campus Facilities</div>
+        <p class="problem-body">Washroom conditions and accommodation options fall far below acceptable standards, affecting the dignity and comfort of every student.</p>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">💰</span>
+        <div class="problem-title">Financial Hardship</div>
+        <p class="problem-body">Too many students face financial challenges with insufficient support systems, scholarships, or emergency aid — leaving students to struggle alone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE BANNER -->
+  <div class="quote-banner reveal">
+    <p class="quote-text">
+      "Let's make our voices heard! Vote for Abdul Manaf Yussif as your SRC Welfare Officer. Together, we can build a <span class="highlight">supportive community</span> where every student's voice matters."
+    </p>
+    <p class="quote-attr">— Abdul Manaf Yussif · Campaign Promise</p>
+  </div>
+
+</div>
+
+<!-- ================================================
+     PAGE 2: ABOUT
+================================================ -->
+<div id="page-about" class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-img-wrap">
+      <img src="images/manaf6.jpeg" alt="Abdul Manaf Yussif — Biography Photo">
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">About the Candidate</div>
+      <h1 class="hero-headline">
+        <span>More Than</span>
+        <span class="gold">A Candidate.</span>
+        <span>A Champion.</span>
+      </h1>
+      <p class="hero-subhead">
+        Fashion designer. Mental health advocate. Community organizer. Model. Leader. Abdul Manaf Yussif brings a rare combination of passion, skill, and lived experience to the role of SRC Welfare Officer.
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="btn-primary" onclick="showPage('agenda', event)">
+          <span>See His Agenda →</span>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span><div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- BIO -->
+  <section class="about-bio">
+    <div class="two-col">
+      <div class="col-text reveal-left">
+        <div class="section-label">Biography</div>
+        <h2 class="section-title">Shaped by <span class="accent">Experience,</span><br>Driven by <span style="color:var(--gold)">Purpose.</span></h2>
+        <p class="section-body" style="margin-bottom:1.2rem;">
+          Abdul Manaf Yussif is a student of Fashion and Textiles (Top-Up) — but his story extends far beyond the classroom. He is a multi-disciplinary leader who has championed mental health, student empowerment, and creative excellence throughout his journey.
+        </p>
+        <p class="section-body" style="margin-bottom:1.2rem;">
+          As a Man of Africa Ghana 23 titleholder, Mister Ideal Top Model, and Vice President of ATU's Drama and Dance Club, Manaf understands the power of voice, presence, and community.
+        </p>
+        <p class="section-body">
+          He has organized events, groomed students, directed pageants, and stood up as a mental health and streetism advocate — proving he doesn't just talk about change, he creates it.
+        </p>
+      </div>
+      <div class="col-img reveal-right">
+        <div class="img-frame">
+          <div class="img-fancy" style="height:480px;">
+            <img src="images/manaf1.jpeg" alt="Abdul Manaf Yussif — Fashion and Textiles Identity">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section style="background:#0A1AFF; padding:6rem 4rem;">
+    <div class="two-col">
+      <div class="col-text reveal-left">
+        <div class="section-label" style="color:#ffe082;">Journey & Milestones</div>
+        <h2 class="section-title" style="color:#fff;">A Track Record <span style="color:var(--gold)">of Action.</span></h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-year">2023</div>
+            <div class="timeline-title" style="color:#fff;">Man of Africa Ghana '23</div>
+            <div class="timeline-body" style="color:rgba(255,255,255,0.65);">Represented excellence, character, and leadership on a national stage.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">2023</div>
+            <div class="timeline-title" style="color:#fff;">Mister Ideal Top Model</div>
+            <div class="timeline-body" style="color:rgba(255,255,255,0.65);">Demonstrated poise, confidence, and purpose in high-profile competition.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">Ongoing</div>
+            <div class="timeline-title" style="color:#fff;">Vice President, ATU Drama & Dance Club</div>
+            <div class="timeline-body" style="color:rgba(255,255,255,0.65);">Building community through creative arts and student engagement.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">Ongoing</div>
+            <div class="timeline-title" style="color:#fff;">Mental Health & Streetism Advocate</div>
+            <div class="timeline-body" style="color:rgba(255,255,255,0.65);">Championing mental wellbeing and support systems for vulnerable youth.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-year">Ongoing</div>
+            <div class="timeline-title" style="color:#fff;">Dept. of Fashion & Textiles Organizer</div>
+            <div class="timeline-body" style="color:rgba(255,255,255,0.65);">Coordinating student events and representing departmental interests.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-img reveal-right">
+        <div class="img-fancy" style="height:550px; border-radius:12px;">
+          <img src="images/manaf2.jpeg" alt="Abdul Manaf Yussif — Community Leadership">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section style="background:var(--off-white); padding:6rem 4rem;">
+    <div class="reveal" style="text-align:center; margin-bottom:0.5rem;">
+      <div class="section-label" style="justify-content:center;">Core Values</div>
+      <h2 class="section-title" style="text-align:center;">What <span class="accent">Drives</span> Him.</h2>
+    </div>
+    <div class="values-grid stagger">
+      <div class="value-card">
+        <div class="value-icon">🎯</div>
+        <div>
+          <div class="value-title">Purpose-Driven Action</div>
+          <p class="value-body">Every initiative Manaf undertakes is rooted in a clear purpose — improving student lives in measurable, lasting ways.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <div>
+          <div class="value-title">Inclusive Community</div>
+          <p class="value-body">He believes every student's voice deserves to be heard, regardless of background, department, or circumstance.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">💡</div>
+        <div>
+          <div class="value-title">Creative Problem-Solving</div>
+          <p class="value-body">His background in fashion and the arts gives him a uniquely creative lens for tackling complex student welfare challenges.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🛡️</div>
+        <div>
+          <div class="value-title">Advocacy &amp; Accountability</div>
+          <p class="value-body">He doesn't just speak — he acts. Manaf holds himself accountable and advocates relentlessly for student interests.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================================================
+     PAGE 3: WELFARE AGENDA
+================================================ -->
+<div id="page-agenda" class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-img-wrap">
+      <img src="images/manaf3.jpeg" alt="Abdul Manaf Yussif — Welfare Agenda">
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">Welfare Agenda · Real Solutions</div>
+      <h1 class="hero-headline">
+        <span>Problems</span>
+        <span class="gold">Identified.</span>
+        <span>Solutions Ready.</span>
+      </h1>
+      <p class="hero-subhead">
+        Abdul Manaf has done the research. He knows the problems. And he has concrete, actionable plans to fix them — for every student on this campus.
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="btn-primary" onclick="showPage('leadership', event)">
+          <span>See His Experience →</span>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span><div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- AGENDA -->
+  <section class="agenda-section">
+    <div class="reveal" style="text-align:center; margin-bottom:0.5rem;">
+      <div class="section-label" style="justify-content:center;">Three-Point Welfare Plan</div>
+      <h2 class="section-title" style="text-align:center;">The <span class="accent">Plan</span> for<br>Student <span style="color:var(--gold);background:var(--royal);padding:0 0.3rem;">Wellbeing.</span></h2>
+    </div>
+    <div class="agenda-grid stagger">
+      <div class="agenda-card">
+        <span class="agenda-number">01</span>
+        <div class="agenda-tag">Mental Health</div>
+        <div class="agenda-problem">Mental Health Struggles & Counseling</div>
+        <p class="agenda-body">Students face mounting mental health pressures with little access to qualified support. Isolation, stress, and anxiety are student realities that cannot be ignored.</p>
+        <div class="solution-tag">Establish a peer-support network of trained student counselors available across campus.</div>
+      </div>
+      <div class="agenda-card">
+        <span class="agenda-number">02</span>
+        <div class="agenda-tag">Campus Facilities</div>
+        <div class="agenda-problem">Poor Washrooms & Accommodation</div>
+        <p class="agenda-body">Substandard washroom conditions and limited housing options rob students of the dignity and comfort they deserve as members of this institution.</p>
+        <div class="solution-tag">Launch a maintenance feedback system and conduct structured campus facility audits.</div>
+      </div>
+      <div class="agenda-card">
+        <span class="agenda-number">03</span>
+        <div class="agenda-tag">Financial Support</div>
+        <div class="agenda-problem">Limited Financial Resources & Aid</div>
+        <p class="agenda-body">Students in financial hardship have no safety net. Scholarships go unclaimed, emergency funds don't exist, and students suffer in silence.</p>
+        <div class="solution-tag">Set up an emergency welfare fund and provide active scholarship &amp; financial aid information.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT MARQUEE -->
+  <div class="impact-section">
+    <div class="impact-marquee">
+      <span>MENTAL HEALTH</span>
+      <span class="accent">★</span>
+      <span>CAMPUS FACILITIES</span>
+      <span class="accent">★</span>
+      <span>FINANCIAL AID</span>
+      <span class="accent">★</span>
+      <span>PEER SUPPORT</span>
+      <span class="accent">★</span>
+      <span>STUDENT VOICE</span>
+      <span class="accent">★</span>
+      <span>WELFARE FUND</span>
+      <span class="accent">★</span>
+      <!-- Repeated for seamless loop -->
+      <span>MENTAL HEALTH</span>
+      <span class="accent">★</span>
+      <span>CAMPUS FACILITIES</span>
+      <span class="accent">★</span>
+      <span>FINANCIAL AID</span>
+      <span class="accent">★</span>
+      <span>PEER SUPPORT</span>
+      <span class="accent">★</span>
+      <span>STUDENT VOICE</span>
+      <span class="accent">★</span>
+      <span>WELFARE FUND</span>
+      <span class="accent">★</span>
+    </div>
+  </div>
+
+  <!-- VISION -->
+  <section style="background:var(--off-white); padding:6rem 4rem;">
+    <div class="two-col">
+      <div class="col-img reveal-left">
+        <div class="img-frame">
+          <div class="img-fancy" style="height:480px;">
+            <img src="images/manaf4.jpeg" alt="Abdul Manaf Yussif — Engaging with Students">
+          </div>
+        </div>
+      </div>
+      <div class="col-text reveal-right">
+        <div class="section-label">Vision Statement</div>
+        <h2 class="section-title">An <span class="accent">Inclusive</span><br>Campus for <span style="color:var(--gold)">All.</span></h2>
+        <p class="section-body" style="margin-bottom:1.5rem;">
+          "To build an inclusive campus where students are supported academically, financially, and emotionally, and where every student feels heard and cared for."
+        </p>
+        <p class="section-body">
+          This isn't just a vision statement — it's a roadmap. Every policy proposal, every initiative, every conversation Manaf has will be guided by this north star: the wellbeing of every student on this campus.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================================================
+     PAGE 4: LEADERSHIP & EXPERIENCE
+================================================ -->
+<div id="page-leadership" class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-img-wrap">
+      <img src="images/manaf5.jpeg" alt="Abdul Manaf Yussif — Leadership Photo">
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">Leadership &amp; Experience</div>
+      <h1 class="hero-headline">
+        <span>Proven.</span>
+        <span class="gold">Experienced.</span>
+        <span>Ready.</span>
+      </h1>
+      <p class="hero-subhead">
+        Leadership isn't just a title — it's a track record. Abdul Manaf Yussif has led, organized, advocated, and inspired across multiple platforms. He brings that energy to your welfare.
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="btn-primary" onclick="showPage('vote', event)">
+          <span>Why Vote for Me →</span>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span><div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- EXP GRID -->
+  <section class="leadership-section">
+    <div class="reveal" style="text-align:center; margin-bottom:0.5rem;">
+      <div class="section-label" style="justify-content:center;">Roles &amp; Responsibilities</div>
+      <h2 class="section-title" style="text-align:center;">Seven Roles. <span class="accent">One Mission.</span></h2>
+    </div>
+    <div class="exp-grid stagger">
+      <div class="exp-card">
+        <div class="exp-badge">👑</div>
+        <div>
+          <div class="exp-role">Man of Africa Ghana '23</div>
+          <div class="exp-org">National Pageantry · Title Winner</div>
+        </div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-badge">🌟</div>
+        <div>
+          <div class="exp-role">Mister Ideal Top Model</div>
+          <div class="exp-org">Modelling &amp; Pageantry</div>
+        </div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-badge">🎨</div>
+        <div>
+          <div class="exp-role">Department Organizer</div>
+          <div class="exp-org">Fashion &amp; Textiles Department · ATU</div>
+        </div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-badge">🎭</div>
+        <div>
+          <div class="exp-role">Vice President</div>
+          <div class="exp-org">ATU Drama &amp; Dance Club</div>
+        </div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-badge">🧠</div>
+        <div>
+          <div class="exp-role">Mental Health &amp; Streetism Advocate</div>
+          <div class="exp-org">Student Advocacy</div>
+        </div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-badge">📸</div>
+        <div>
+          <div class="exp-role">President, Prefect Photo Challenge</div>
+          <div class="exp-org">Creative Leadership Initiative</div>
+        </div>
+      </div>
+      <div class="exp-card">
+        <div class="exp-badge">💼</div>
+        <div>
+          <div class="exp-role">Student Groomer &amp; Pageantry Director</div>
+          <div class="exp-org">Events Organizer</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURE HIGHLIGHT -->
+    <div class="feature-hl reveal">
+      <div>
+        <div class="section-label" style="color:#ffe082;">Why It Matters</div>
+        <div class="feature-hl-title">Leadership Isn't Claimed.<br><span>It's Proven.</span></div>
+        <p class="feature-hl-body">
+          With 7+ verified leadership roles spanning advocacy, arts, fashion, and student governance, Abdul Manaf Yussif doesn't need to promise leadership — he has demonstrated it consistently. As your Welfare Officer, he brings this same level of commitment, organization, and heart to fighting for your wellbeing every single day.
+        </p>
+        <br>
+        <a href="#" class="btn-primary" onclick="showPage('vote', event)" style="display:inline-flex; margin-top:0.5rem;">
+          <span>Vote for Manaf →</span>
+        </a>
+      </div>
+      <div class="feature-hl-img">
+        <img src="images/manaf6.jpeg" alt="Abdul Manaf Yussif — Event Organizer and Leader">
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================================================
+     PAGE 5: WHY VOTE FOR ME
+================================================ -->
+<div id="page-vote" class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-img-wrap">
+      <img src="images/manaf7.jpeg" alt="Abdul Manaf Yussif — Vote Campaign Photo">
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">Why Vote for Manaf</div>
+      <h1 class="hero-headline">
+        <span>The Choice</span>
+        <span class="gold">Is Clear.</span>
+        <span>Vote Manaf.</span>
+      </h1>
+      <p class="hero-subhead">
+        He understands your struggles. He has the experience. He has the plan. And he has the passion to see it through — every single day of his term as your SRC Welfare Officer.
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="btn-primary" onclick="showPage('agenda', event)">
+          <span>See His Full Agenda →</span>
+        </a>
+        <a href="#" class="btn-secondary" onclick="showPage('about', event)">
+          About Abdul →
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span><div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- PILLARS -->
+  <section class="vote-hero-section">
+    <div class="reveal" style="text-align:center; margin-bottom:0.5rem;">
+      <div class="section-label" style="justify-content:center;">Three Reasons to Vote</div>
+      <h2 class="section-title" style="text-align:center;">Why <span class="accent">Manaf</span> Is<br>the <span style="color:var(--gold)">Right Choice.</span></h2>
+    </div>
+    <div class="pillars stagger">
+      <div class="pillar">
+        <span class="pillar-num">01</span>
+        <span class="pillar-icon">🎓</span>
+        <div class="pillar-title">He Lives the Student Experience</div>
+        <p class="pillar-body">Manaf understands student challenges firsthand — not from a distance, not from statistics. He has walked these halls, faced these pressures, and knows what needs to change.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">02</span>
+        <span class="pillar-icon">📋</span>
+        <div class="pillar-title">He Has a Real, Concrete Plan</div>
+        <p class="pillar-body">No vague promises. Manaf has specific, actionable proposals — peer counseling networks, facility audits, emergency welfare funds — that can be executed from day one.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar-num">03</span>
+        <span class="pillar-icon">🏆</span>
+        <div class="pillar-title">His Record Speaks for Itself</div>
+        <p class="pillar-body">7+ leadership roles. National title. Advocacy work. Arts leadership. Manaf doesn't just lead when it's convenient — he leads consistently, passionately, and effectively.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMISES -->
+  <section class="promises-section">
+    <div class="two-col">
+      <div class="col-text reveal-left">
+        <div class="section-label">His Commitments</div>
+        <h2 class="section-title">Promises He <span style="color:var(--gold)">Will Keep.</span></h2>
+        <p class="section-body" style="margin-bottom:2rem;">
+          Abdul Manaf Yussif makes these commitments to every student — and his track record shows he follows through on what he starts.
+        </p>
+        <div class="promise-list">
+          <div class="promise-item">
+            <div class="promise-check">✓</div>
+            <div class="promise-text">Listen to every student's concern — no voice is too small.</div>
+          </div>
+          <div class="promise-item">
+            <div class="promise-check">✓</div>
+            <div class="promise-text">Establish a peer-support and counseling network within the first semester.</div>
+          </div>
+          <div class="promise-item">
+            <div class="promise-check">✓</div>
+            <div class="promise-text">Launch a campus facility audit and push for immediate improvements.</div>
+          </div>
+          <div class="promise-item">
+            <div class="promise-check">✓</div>
+            <div class="promise-text">Create and manage an emergency student welfare fund.</div>
+          </div>
+          <div class="promise-item">
+            <div class="promise-check">✓</div>
+            <div class="promise-text">Actively promote scholarship opportunities and financial aid access.</div>
+          </div>
+          <div class="promise-item">
+            <div class="promise-check">✓</div>
+            <div class="promise-text">Advocate relentlessly for student wellbeing at every SRC level.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-img reveal-right">
+        <div class="img-fancy" style="height:600px; border-radius:12px;">
+          <img src="images/manaf8.jpeg" alt="Abdul Manaf Yussif — Making a Promise to Students">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section reveal">
+    <div class="section-label" style="color:var(--gold-light); justify-content:center;">Cast Your Vote</div>
+    <h2 class="section-title" style="color:var(--white); text-align:center; max-width:700px; margin:0 auto 1.5rem;">
+      Be Part of the <span style="color:var(--gold)">Change.</span><br>Vote Abdul Manaf Yussif.
+    </h2>
+    <p class="section-body" style="color:rgba(255,255,255,0.7); text-align:center; margin:0 auto 2.5rem;">
+      Your vote is your voice. Make it count. Together, let's build an inclusive, supportive campus community where every student thrives.
+    </p>
+    <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+      <a href="#" class="btn-primary" onclick="showPage('home', event)">
+        <span>★ Vote Abdul Manaf Yussif</span>
+      </a>
+      <a href="#" class="btn-secondary" onclick="showPage('agenda', event)">
+        Read the Full Agenda
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================================================
+     FOOTER (on every page via JS)
+================================================ -->
+<footer id="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Abdul Manaf Yussif</div>
+      <div class="footer-brand-title">SRC Welfare Officer Aspirant · ATU</div>
+      <p class="footer-bio">
+        Passionate about inspiring, educating, and creating a supportive environment where every student's voice is heard and valued. Fashion &amp; Textiles student, mental health advocate, community leader.
+      </p>
+    </div>
+    <div>
+      <div class="footer-col-title">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="#" onclick="showPage('home', event)">Home</a></li>
+        <li><a href="#" onclick="showPage('about', event)">About Manaf</a></li>
+        <li><a href="#" onclick="showPage('agenda', event)">Welfare Agenda</a></li>
+        <li><a href="#" onclick="showPage('leadership', event)">Leadership</a></li>
+        <li><a href="#" onclick="showPage('vote', event)">Why Vote for Me</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">His Vision</div>
+      <p class="footer-bio">
+        "To build an inclusive campus where students are supported academically, financially, and emotionally, and where every student feels heard and cared for."
+      </p>
+      <br>
+      <div style="display:inline-flex; align-items:center; gap:0.5rem; background:var(--gold); color:var(--royal-dark); font-size:0.75rem; font-weight:700; padding:0.5rem 1.2rem; border-radius:50px; letter-spacing:0.08em; text-transform:uppercase;">★ Vote Manaf</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Abdul Manaf Yussif · SRC Welfare Officer Campaign</span>
+    <span>Department of Fashion &amp; Textiles · <span>ATU</span></span>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   LOADING
+========================================================= */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+    initReveal();
+    initStagger();
+  }, 2000);
+});
+
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = -100, my = -100, rx = -100, ry = -100;
+
+document.addEventListener('mousemove', (e) => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .btn-primary, .btn-secondary, .problem-card, .agenda-card, .pillar, .exp-card, .value-card, .promise-item, .hamburger, .stat-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '30px';
+    cursor.style.height = '30px';
+    cursor.style.background = 'rgba(244,196,48,0.6)';
+    ring.style.width = '60px';
+    ring.style.height = '60px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '14px';
+    cursor.style.height = '14px';
+    cursor.style.background = 'var(--gold)';
+    ring.style.width = '40px';
+    ring.style.height = '40px';
+  });
+});
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+const canvas = document.getElementById('particles-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = -Math.random() * 0.4 - 0.1;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.color = Math.random() > 0.5 ? '10,26,255' : '244,196,48';
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.y < -10) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* =========================================================
+   NAVIGATION SCROLL HIDE
+========================================================= */
+let lastScroll = 0;
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  const current = window.scrollY;
+  if (current > lastScroll && current > 100) nav.classList.add('hidden');
+  else nav.classList.remove('hidden');
+  if (current > 30) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+  lastScroll = current;
+  checkReveal();
+  checkStagger();
+});
+
+/* =========================================================
+   PAGE ROUTING
+========================================================= */
+function showPage(name, event) {
+  if (event) event.preventDefault();
+  const transition = document.getElementById('page-transition');
+  transition.className = 'page-transition slide-in';
+
+  setTimeout(() => {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + name);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // Update nav active
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.remove('active');
+      if (a.dataset.page === name) a.classList.add('active');
+    });
+
+    transition.className = 'page-transition slide-out';
+    initReveal();
+    initStagger();
+  }, 500);
+}
+
+/* =========================================================
+   HAMBURGER MENU
+========================================================= */
+function toggleMenu() {
+  const hb = document.getElementById('hamburger');
+  const mm = document.getElementById('mobile-menu');
+  hb.classList.toggle('open');
+  mm.classList.toggle('open');
+}
+
+/* =========================================================
+   SCROLL-TRIGGERED REVEAL
+========================================================= */
+function initReveal() {
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+    el.classList.remove('visible');
+  });
+  checkReveal();
+}
+
+function checkReveal() {
+  const vh = window.innerHeight;
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < vh * 0.88) el.classList.add('visible');
+  });
+}
+
+function initStagger() {
+  document.querySelectorAll('.stagger').forEach(el => el.classList.remove('visible'));
+  checkStagger();
+}
+
+function checkStagger() {
+  const vh = window.innerHeight;
+  document.querySelectorAll('.stagger').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < vh * 0.85) el.classList.add('visible');
+  });
+}
+
+window.addEventListener('load', () => {
+  setTimeout(() => { checkReveal(); checkStagger(); }, 100);
+});
+
+/* =========================================================
+   PARALLAX
+========================================================= */
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  document.querySelectorAll('.hero-img-wrap img').forEach(img => {
+    img.style.transform = `scale(1.08) translateY(${scrolled * 0.08}px)`;
+  });
+});
+
+/* =========================================================
+   BTN RIPPLE
+========================================================= */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-primary');
+  if (!btn) return;
+  const ripple = document.createElement('span');
+  const rect = btn.getBoundingClientRect();
+  ripple.style.cssText = `
+    position:absolute; border-radius:50%; background:rgba(255,255,255,0.4);
+    width:60px; height:60px; left:${e.clientX - rect.left - 30}px;
+    top:${e.clientY - rect.top - 30}px;
+    transform:scale(0); animation:ripple 0.6s ease-out forwards; pointer-events:none; z-index:99;
+  `;
+  const style = document.createElement('style');
+  style.textContent = `@keyframes ripple { to { transform:scale(4); opacity:0; } }`;
+  document.head.appendChild(style);
+  btn.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 700);
+});
+
+/* =========================================================
+   COUNTER ANIMATION
+========================================================= */
+function animateCounters() {
+  document.querySelectorAll('.stat-num').forEach(el => {
+    const text = el.textContent;
+    const num = parseFloat(text.replace(/[^0-9.]/g, ''));
+    if (isNaN(num) || num === 0) return;
+    const suffix = text.replace(/[0-9.]/g, '');
+    let start = 0;
+    const step = num / 40;
+    const interval = setInterval(() => {
+      start += step;
+      if (start >= num) { el.textContent = text; clearInterval(interval); return; }
+      el.textContent = (Number.isInteger(num) ? Math.floor(start) : start.toFixed(0)) + suffix;
+    }, 35);
+  });
+}
+
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounters(); statsObserver.disconnect(); } });
+}, { threshold: 0.3 });
+const statsBar = document.querySelector('.stats-bar');
+if (statsBar) statsObserver.observe(statsBar);
+</script>
+</body>
+</html>
